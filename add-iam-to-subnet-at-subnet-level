@@ -1,0 +1,10 @@
+gcloud compute networks subnets add-iam-policy-binding SUBNET_NAME \
+    --region REGION \
+    --member serviceAccount:SERVICE_ACCOUNT_EMAIL \
+    --role=ROLE
+
+
+gcloud compute networks subnets add-iam-policy-binding SUBNET_NAME \
+    --region REGION \
+    --member group:GROUP_EMAIL \
+    --role=ROLE
