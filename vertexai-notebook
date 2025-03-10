@@ -1,0 +1,43 @@
+resource "google_notebooks_instance" "vertex_notebook" {
+  name                 = var.notebook_name
+  project              = var.project_id
+  location             = var.region
+  machine_type         = var.machine_type
+
+  vm_image {
+    project            = "deeplearning-platform-release"
+    image_family       = "tf2-2-6-cpu"
+  }
+
+  boot_disk_type       = var.boot_disk_type
+  boot_disk_size_gb    = var.boot_disk_size
+
+  service_account      = var.create_service_account ? google_service_account.vertex_user_sa[0].email : null
+
+
+    network            = "projects/${var.network_project_id}/global/networks/${var.network_name}"
+    subnet             = "projects/${var.network_project_id}/regions/${var.region}/subnetworks/${var.subnet_name}"
+  
+
+  no_public_ip         = true
+
+  shielded_instance_config {
+    enable_secure_boot = true
+  }
+
+  disk_encryption      = "CMEK"
+  kms_key              = "projects/${var.vault_project_id}/locations/${var.kms_location}/keyRings/${var.kms_keyring}/cryptoKeys/${var.kms_key}"
+
+  metadata = {
+    enable-oslogin      = "TRUE"
+  }
+
+  instance_owners      = [var.user_email]
+
+  
+    # maintenance_window {
+    #   day_of_week      = var.maintenance_day
+    #   start_time       = var.maintenance_time
+    # }
+  
+}
