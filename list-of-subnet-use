@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Set your host projects (replace these with actual host project IDs)
+HOST_PROJECTS=("host-project-1" "host-project-2")  
+
+# File containing the subnet names (one per line)
+SUBNET_FILE="subnet_list.txt"
+
+# Check if the subnet file exists
+if [[ ! -f "$SUBNET_FILE" ]]; then
+    echo "Error: File '$SUBNET_FILE' not found!"
+    exit 1
+fi
+
+echo "Finding service projects for subnets..."
+
+# Loop through each subnet name in the file
+while read -r SUBNET_NAME; do
+    echo "-----------------------------------"
+    echo "Subnet: $SUBNET_NAME"
+
+    # Loop through each host project
+    for HOST_PROJECT in "${HOST_PROJECTS[@]}"; do
+        echo "Checking in host project: $HOST_PROJECT"
+
+        # Get subnet details
+        SUBNET_INFO=$(gcloud compute networks subnets describe "$SUBNET_NAME" \
+            --project="$HOST_PROJECT" --format="json" 2>/dev/null)
+
+        # Check if the subnet exists in this host project
+        if [[ -n "$SUBNET_INFO" ]]; then
+            echo "  Found in Host Project: $HOST_PROJECT"
+
+            # Extract the list of service projects that have attachments
+            SERVICE_PROJECTS=$(echo "$SUBNET_INFO" | jq -r '.secondaryIpRanges[].rangeName, .privateIpGoogleAccess')
+
+            if [[ -n "$SERVICE_PROJECTS" ]]; then
+                echo "  Attached Service Projects:"
+                echo "$SERVICE_PROJECTS" | tr '\n' ',' | sed 's/,$//'
+                echo ""
+            else
+                echo "  No attached service projects found."
+            fi
+        fi
+    done
+done < "$SUBNET_FILE"
+
+echo "-----------------------------------"
+echo "Script execution completed."
