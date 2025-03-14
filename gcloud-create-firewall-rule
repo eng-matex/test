@@ -1,0 +1,8 @@
+gcloud compute firewall-rules create allow-tcp-7000 \
+    --project=xyz \
+    --network=default \  # Replace with your network name if different
+    --allow=tcp:7000 \
+    --source-ranges=SOURCE_IP_RANGE \
+    --destination-ranges=DESTINATION_IP_RANGE \
+    --target-tags=adecolo-tag \
+    --direction=INGRESS
