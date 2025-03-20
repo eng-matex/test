@@ -17,3 +17,6 @@ gcloud logging read \
     "methodName": "google.api.servicemanagement.v1.ServiceManager.EnableService",
     "request": {
       "serviceName": "firebase.googleapis.com"
+
+
+protoPayload.methodName="google.api.servicemanagement.v1.ServiceManager.EnableService"
