@@ -1,3 +1,7 @@
 resource.type="project"
 protoPayload.methodName="google.api.servicemanagement.v1.ServiceManager.EnableService"
 protoPayload.request.serviceName="firebase.googleapis.com"
+
+
+gcloud logging read 'protoPayload.methodName="google.api.servicemanagement.v1.ServiceManager.EnableService" AND protoPayload.request.serviceName="firebase.googleapis.com"' --project=YOUR_PROJECT_ID --format=json
+
