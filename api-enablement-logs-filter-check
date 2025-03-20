@@ -3,3 +3,11 @@ protoPayload.serviceName="servicemanagement.googleapis.com"
 protoPayload.methodName="google.api.servicemanagement.v1.ServiceManager.EnableService"
 protoPayload.request.serviceName="firebase.googleapis.com"
 
+
+
+gcloud logging read \
+  'protoPayload.serviceName="servicemanagement.googleapis.com" 
+   AND protoPayload.methodName="google.api.servicemanagement.v1.ServiceManager.EnableService"
+   AND protoPayload.request.serviceName="firebase.googleapis.com"' \
+  --project=YOUR_PROJECT_ID \
+  --format=json --limit=10
