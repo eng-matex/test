@@ -1,0 +1,3 @@
+gcloud org-policies update compute.restrictSharedVpcSubnetworks \
+    --remove-values=projects/HOST_PROJECT_ID/regions/REGION/subnetworks/SUBNET_NAME \
+    --project=HOST_PROJECT_ID
