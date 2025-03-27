@@ -1,0 +1,4 @@
+gcloud billing reports cost-summary \
+    --billing-account=YOUR_BILLING_ACCOUNT_ID \
+    --filter="service.description=('Cloud Storage' OR 'Cloud SQL' OR 'Filestore' OR 'Persistent Disk')" \
+    --format=json
